@@ -37,34 +37,22 @@ while True:
         x = 0
         y = 1
         # for the Index finger
-        if landmark_list[8][y] < landmark_list[7][y]:
-            finger_list.append(True)
-        else:
-            finger_list.append(False)
+        finger_list.append(landmark_list[8][y] < landmark_list[7][y])
         # for middle finger
-        if landmark_list[12][y] < landmark_list[11][y]:
-            finger_list.append(True)
-        else:
-            finger_list.append(False)
+        finger_list.append(landmark_list[12][y] < landmark_list[11][y])
         # for ring finger
-        if landmark_list[16][y] < landmark_list[15][y]:
-            finger_list.append(True)
-        else:
-            finger_list.append(False)
+        finger_list.append(landmark_list[16][y] < landmark_list[15][y])
         # for pinky finger
-        if landmark_list[20][y] < landmark_list[19][y]:
-            finger_list.append(True)
-        else:
-            finger_list.append(False)
+        finger_list.append(landmark_list[20][y] < landmark_list[19][y])
     # print the list
     if len(finger_list) != 0:
         print(finger_list, sep=", ", end="\n")
 
     # Render frame to the screen .
-    cv.imshow('Camera', frame)
+    cv.imshow("Camera", frame)
 
     # when 'q' is pressed, then end the loop.
-    if cv.waitKey(1) & 0xFF == ord('q'):
+    if cv.waitKey(1) & 0xFF == ord("q"):
         break
 
 cap.release()
