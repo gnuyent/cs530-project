@@ -1,0 +1,2 @@
+# choose up to 4: play, pause, skip, rewind 
+actions = ["play", "pause", "skip", "rewind"]
