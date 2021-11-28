@@ -1,18 +1,51 @@
 import cv2 as cv
+import numpy as np
+
+#def nothing(x):
+#    pass
 
 def gesture_use():
-    # Getting camera feed. May need to experiment with integers to get the correct one.
+    # Get camera feed. May need to experiment with integers to get the correct one.
     cap = cv.VideoCapture(0)
 
+    #used to determine ranges
+    #cv.namedWindow("edges")
+    #cv.createTrackbar("lower","edges",0,255,nothing)
+    #cv.createTrackbar("upper","edges",0,255,nothing)
 
     while True:
         # Read each frame on the camera.
-        ret, frame = cap.read()
+        _, frame = cap.read()
+
+        # create a yellow square(canvas) on the frame.
+        pt1 = 10    # The origin
+        pt2 = 250   # the Length and Width
+        yellow = (0, 234, 255)  # Note: Color is BGR
+        cv.rectangle(frame, (pt1, pt1), (pt2,pt2), yellow, 5)
+        canvas = frame[pt1:pt2, pt1:pt2]
+
+        # convert the canvas to grayscale
+        gray = cv.cvtColor(canvas, cv.COLOR_BGR2GRAY)
+
+        # Apply median blur to the canvas to smooth the image and remove noise.
+        smooth = cv.medianBlur(gray, 3)
+        #cv.imshow("canvas", smooth)
+
+        # Find the edges in the canvas
+        lower = 0
+        upper = 135
+        #lower = cv.getTrackbarPos("lower","edges")
+        #upper = cv.getTrackbarPos("upper","edges")
+        mask = cv.inRange(smooth, lower, upper)
+        cv.imshow("edges", mask)
+
+
+
 
         # Render frame to the screen .
         cv.imshow("Camera", frame)
 
-        # when 'q' is pressed, then end the loop.
+        # if 'q' is pressed, then end the loop.
         if cv.waitKey(1) & 0xFF == ord("q"):
             break
 
