@@ -44,11 +44,16 @@ def gesture_use():
         # find contours. 
         # contours is a python list of all the contours in the image. Each individual contour is a np array of (x,y) coordinates of boundary points of the object.
         contours, hierarchy = cv.findContours(binary, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)
-        # draw contours
-        index = -1  # -1 is for all
-        red = (0, 0, 255)
-        thickness = 3
-        cv.drawContours(frame, contours, index, red, thickness)
+        
+        # checks if any elements in contours list, otherwise error if none.
+        if len(contours) > 0:
+            # get the biggest contour, to exclude some noise. Assuming biggest contour is the hand.
+            big_contour = max(contours, key=cv.contourArea) 
+            # draw contours
+            index = -1  # -1 is for all
+            red = (0, 0, 255)
+            thickness = 3
+            cv.drawContours(frame, big_contour, index, red, thickness)
 
 
 
