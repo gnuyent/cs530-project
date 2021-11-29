@@ -1,6 +1,7 @@
 import cv2 as cv
 import numpy as np
 
+
 #def nothing(x):
 #    pass
 
@@ -8,17 +9,17 @@ def gesture_use():
     # Get camera feed. May need to experiment with integers to get the correct one.
     cap = cv.VideoCapture(0)
 
-    #used to determine ranges
-    #cv.namedWindow("edges")
-    #cv.createTrackbar("lower","edges",0,255,nothing)
-    #cv.createTrackbar("upper","edges",0,255,nothing)
+    #used to determine ranges of mask
+    #cv.namedWindow("mask")
+    #cv.createTrackbar("lower","mask",0,255,nothing)
+    #cv.createTrackbar("upper","mask",0,255,nothing)
 
     while True:
         # Read each frame on the camera.
         _, frame = cap.read()
 
         # create a yellow square(canvas) on the frame.
-        pt1 = 10    # The origin
+        pt1 = 0    # The origin
         pt2 = 250   # the Length and Width
         yellow = (0, 234, 255)  # Note: Color is BGR
         cv.rectangle(frame, (pt1, pt1), (pt2,pt2), yellow, 5)
@@ -31,13 +32,23 @@ def gesture_use():
         smooth = cv.medianBlur(gray, 3)
         #cv.imshow("canvas", smooth)
 
-        # Find the edges in the canvas
-        lower = 0
+        # Find the hand in the canvas
+        lower = 1
         upper = 135
-        #lower = cv.getTrackbarPos("lower","edges")
-        #upper = cv.getTrackbarPos("upper","edges")
-        mask = cv.inRange(smooth, lower, upper)
-        cv.imshow("edges", mask)
+        #lower = cv.getTrackbarPos("lower","mask")
+        #upper = cv.getTrackbarPos("upper","mask")
+        binary = cv.inRange(smooth, lower, upper)
+        cv.imshow("mask", binary)
+
+
+        # find contours. 
+        # contours is a python list of all the contours in the image. Each individual contour is a np array of (x,y) coordinates of boundary points of the object.
+        contours, hierarchy = cv.findContours(binary, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)
+        # draw contours
+        index = -1  # -1 is for all
+        red = (0, 0, 255)
+        thickness = 3
+        cv.drawContours(frame, contours, index, red, thickness)
 
 
 
