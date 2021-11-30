@@ -1,3 +1,4 @@
+import math
 import cv2 as cv
 import numpy as np
 
@@ -50,12 +51,21 @@ def gesture_use():
             # get the biggest contour, to exclude some noise. Assuming biggest contour is the hand.
             big_contour = max(contours, key=cv.contourArea) 
             # draw contours
-            index = -1  # -1 is for all
+            index = -1  # -1 is for all of them.
             red = (0, 0, 255)
             thickness = 3
             cv.drawContours(frame, big_contour, index, red, thickness)
 
-
+            # Convex Hull algorithm and draw the contours
+            blue = (255, 0, 0)
+            c_hull = [cv.convexHull(big_contour)]
+            cv.drawContours(frame, c_hull, index, blue, thickness)
+            
+            # find the convexity defects
+            c_hull = cv.convexHull(big_contour, returnPoints=False)
+            defects = cv.convexityDefects(big_contour, c_hull)
+            #print("start")
+            #print(defects)
 
 
         # Render frame to the screen .
