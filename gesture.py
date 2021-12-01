@@ -1,7 +1,4 @@
-import math
 import cv2 as cv
-import numpy as np
-
 
 #def nothing(x):
 #    pass
@@ -44,9 +41,9 @@ def gesture_use():
 
         # find contours. 
         # contours is a python list of all the contours in the image. Each individual contour is a np array of (x,y) coordinates of boundary points of the object.
-        contours, hierarchy = cv.findContours(binary, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)
+        contours, hierarchy = cv.findContours(binary, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
         
-        # checks if any elements in contours list, otherwise error if none.
+        # checks if any elements in contours list to prevent error if none.
         if len(contours) > 0:
             # get the biggest contour, to exclude some noise. Assuming biggest contour is the hand.
             big_contour = max(contours, key=cv.contourArea) 
@@ -56,17 +53,30 @@ def gesture_use():
             thickness = 3
             cv.drawContours(frame, big_contour, index, red, thickness)
 
-            # Convex Hull algorithm and draw the contours
-            blue = (255, 0, 0)
-            c_hull = [cv.convexHull(big_contour)]
-            cv.drawContours(frame, c_hull, index, blue, thickness)
-            
-            # find the convexity defects
-            c_hull = cv.convexHull(big_contour, returnPoints=False)
-            defects = cv.convexityDefects(big_contour, c_hull)
-            #print("start")
-            #print(defects)
+            # returnpoints = false, returns index instead of the actual points
+            # convex hull is used to find the defects in the contour line.
+            c_hull = cv.convexHull(big_contour,returnPoints = False)
+            defects = cv.convexityDefects(big_contour,c_hull)
 
+            # Count the defects that long
+            count = 0
+
+            # prevents crashing when defects is none.
+            if type(defects) != type(None):
+                for i in range(defects.shape[0]):
+                    s,e,f,d = defects[i,0]
+
+                    # d is the approximate distance from the farthest point
+                    if d > 3000:
+                        start = tuple(big_contour[s][0])
+                        end = tuple(big_contour[e][0])
+                        far = tuple(big_contour[f][0])
+                        
+                        cv.line(frame,start,end,[0,255,0],2)
+                        cv.circle(frame,far,5,[255,255,255],-1)
+                        count = count + 1
+           
+            print(count)
 
         # Render frame to the screen .
         cv.imshow("Camera", frame)
