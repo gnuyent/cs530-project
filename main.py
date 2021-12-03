@@ -1,43 +1,49 @@
-import toml
+from time import sleep
 import cv2 as cv
+import keyboard
+import toml
 
-def play():
-    pass
 
-def pause():
-    pass
+def playpause():
+    keyboard.press_and_release("play/pause media")
+    print("Playing/pausing media")
+
 
 def next():
-    pass
+    keyboard.press_and_release("next track media")
+    print("Next track")
+
 
 def prev():
-    pass
+    keyboard.press_and_release("prev track media")
+    print("Previous track")
+
 
 def config():
     gesture_bind = {}
     with open("config.toml", "r") as f:
         config = toml.load(f)
 
-    for key, value in config['gestures'].items():
+    for key, value in config["gestures"].items():
         action = 0
-        if value == 'next':
+        if value == "next":
             action = next
-        elif value == 'prev':
+        elif value == "prev":
             action = prev
-        elif value == 'pause':
-            action = pause
-        elif value == 'play':
-            action = play
+        elif value == "playpause":
+            action = playpause
         else:
-            action = play
+            action = playpause
 
         gesture_bind[int(key)] = action
 
     return gesture_bind
 
+
 # Does nothing, required to use opencv2's createTrackbar.
 def nothing(x):
     pass
+
 
 def main():
     gesture_bind = config()
@@ -133,6 +139,10 @@ def main():
                         count = count + 1
 
             # TODO all this does is display the current count of the fingers in the terminal.
+            # TODO Handle finger gestures here!
+            if count != 0 and count != 5:
+                gesture_bind[count]()
+                sleep(2)
             print(count)
 
         # Render frame to the screen.

@@ -1,8 +1,7 @@
 # number represents number of fingers
-# choose up to 4: play, pause, skip, rewind 
-# actions = ["play", "pause", "skip", "rewind"]
+# actions = ["playpause", "skip", "rewind"]
 [gestures]
-1 = "play"
-2 = "pause"
+1 = "playpause"
+2 = "playpause"
 3 = "next"
 4 = "prev"
