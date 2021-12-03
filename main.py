@@ -26,15 +26,11 @@ def config():
         config = toml.load(f)
 
     for key, value in config["gestures"].items():
-        action = 0
+        action = playpause
         if value == "next":
             action = next
         elif value == "prev":
             action = prev
-        elif value == "playpause":
-            action = playpause
-        else:
-            action = playpause
 
         gesture_bind[int(key)] = action
 
