@@ -1,16 +1,47 @@
 import toml
 import cv2 as cv
 
+def play():
+    pass
+
+def pause():
+    pass
+
+def next():
+    pass
+
+def prev():
+    pass
+
+def config():
+    gesture_bind = {}
+    with open("config.toml", "r") as f:
+        config = toml.load(f)
+
+    for key, value in config['gestures'].items():
+        action = 0
+        if value == 'next':
+            action = next
+        elif value == 'prev':
+            action = prev
+        elif value == 'pause':
+            action = pause
+        elif value == 'play':
+            action = play
+        else:
+            action = play
+
+        gesture_bind[int(key)] = action
+
+    return gesture_bind
+
 # Does nothing, required to use opencv2's createTrackbar.
 def nothing(x):
     pass
 
-
 def main():
-    with open("config.toml", "r") as f:
-        config = toml.load(f)
+    gesture_bind = config()
 
-    print(config)
     # Get camera feed. May need to experiment with integers to get the correct one.
     cap = cv.VideoCapture(0)
 
