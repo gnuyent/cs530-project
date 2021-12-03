@@ -1,4 +1,4 @@
-from time import sleep
+from time import sleep, time
 import cv2 as cv
 import keyboard
 import toml
@@ -65,6 +65,7 @@ def main():
     green = (0, 255, 0)
     white = (255, 255, 255)
 
+    start_time = time()
     while True:
         # Read each frame on the camera.
         _, frame = cap.read()
@@ -138,9 +139,13 @@ def main():
             # TODO all this does is display the current count of the fingers in the terminal.
             # TODO Handle finger gestures here!
             if count != 0 and count != 5:
-                gesture_bind[count]()
-                sleep(2)
-            print(count)
+                actionTime = time()
+
+                ##If two seconds have passed, then can do next function
+                if(time() - start_time > 2):
+                    gesture_bind[count]()
+                    ##Update start time to now allow to check for another 2 second delay
+                    start_time = time()
 
         # Render frame to the screen.
         cv.imshow("Camera", frame)
