@@ -1,4 +1,5 @@
 from time import sleep
+from typing import Dict
 import cv2 as cv
 import keyboard
 import toml
@@ -20,13 +21,13 @@ def prev():
 
 
 # Sets up finger counts to corresponding functions as specified in config.toml
-def config():
-    gesture_bind = {}
+def config() -> Dict[int, function]:
+    gesture_bind: Dict[int, function] = {}
     with open("config.toml", "r") as f:
         config = toml.load(f)
 
     for key, value in config["gestures"].items():
-        action = playpause
+        action: function = playpause
         if value == "next":
             action = next
         elif value == "prev":
