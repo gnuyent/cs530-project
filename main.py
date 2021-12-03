@@ -142,7 +142,7 @@ def main():
                 actionTime = time()
 
                 ##If two seconds have passed, then can do next function
-                if(time() - start_time > 2):
+                if(actionTime - start_time > 2):
                     gesture_bind[count]()
                     ##Update start time to now allow to check for another 2 second delay
                     start_time = time()
