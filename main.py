@@ -19,6 +19,7 @@ def prev():
     print("Previous track")
 
 
+# Sets up finger counts to corresponding functions as specified in config.toml
 def config():
     gesture_bind = {}
     with open("config.toml", "r") as f:
