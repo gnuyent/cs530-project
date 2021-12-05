@@ -1,22 +1,27 @@
 from time import time
 
-import keyboard
+import cv2 as cv
 import toml
-from cv2 import cv2 as cv
+from pynput.keyboard import Controller
+
+keyboard = Controller()
 
 
 def playpause():
-    keyboard.press_and_release("play/pause media")
+    keyboard.press("<179>")
+    keyboard.release("<179>")
     print("Playing/pausing media")
 
 
 def next():
-    keyboard.press_and_release("next track media")
+    keyboard.press("<176>")
+    keyboard.release("<176>")
     print("Next track")
 
 
 def prev():
-    keyboard.press_and_release("prev track media")
+    keyboard.press("<177>")
+    keyboard.release("<177>")
     print("Previous track")
 
 
