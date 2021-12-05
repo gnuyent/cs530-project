@@ -1,7 +1,8 @@
-from time import sleep, time
-import cv2 as cv
+from time import time
+
 import keyboard
 import toml
+from cv2 import cv2 as cv
 
 
 def playpause():
@@ -142,7 +143,7 @@ def main():
                 actionTime = time()
 
                 ##If two seconds have passed, then can do next function
-                if(actionTime - start_time > 2):
+                if actionTime - start_time > 2:
                     gesture_bind[count]()
                     ##Update start time to now allow to check for another 2 second delay
                     start_time = time()
