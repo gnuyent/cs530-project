@@ -1,8 +1,9 @@
 from time import time
 
+import cv2 as cv
 import keyboard
 import toml
-import cv2 as cv
+
 
 def playpause():
     keyboard.send(164)
@@ -19,6 +20,15 @@ def prev():
     print("Previous track")
 
 
+# Does nothing, required to use opencv2's createTrackbar.
+def nothing(x):
+    pass
+
+
+def nothing():
+    pass
+
+
 # Sets up finger counts to corresponding functions as specified in config.toml
 def config():
     gesture_bind = {}
@@ -31,15 +41,12 @@ def config():
             action = next
         elif value == "prev":
             action = prev
+        else:
+            action = nothing
 
         gesture_bind[int(key)] = action
 
     return gesture_bind
-
-
-# Does nothing, required to use opencv2's createTrackbar.
-def nothing(x):
-    pass
 
 
 def main():

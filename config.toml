@@ -1,7 +1,12 @@
 # number represents number of fingers
-# actions = ["playpause", "skip", "rewind"]
+# actions = ["playpause", "skip", "rewind", "nothing"]
 [gestures]
+0 = "nothing"
 1 = "playpause"
 2 = "playpause"
 3 = "next"
 4 = "prev"
+# should never be hit!
+5 = "nothing"
+6 = "nothing"
+7 = "nothing"
