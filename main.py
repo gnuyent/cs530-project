@@ -118,6 +118,7 @@ def main():
             # returnpoints = false, returns index instead of the actual points
             # convex hull is used to find the defects in the contour line.
             c_hull = cv.convexHull(big_contour, returnPoints=False)
+            c_hull[::-1].sort(axis=0)
             defects = cv.convexityDefects(big_contour, c_hull)
 
             # Count the defects. Count incremented when it's greater than a certain distance.
